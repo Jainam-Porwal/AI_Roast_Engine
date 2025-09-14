@@ -10,8 +10,8 @@ load_dotenv()
 # Hugging Face API setup
 llm = HuggingFaceEndpoint(
     repo_id="deepseek-ai/DeepSeek-V3.1",
-    huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN")  # ✅ Fixed
-        model_kwargs={
+    huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN") , # ✅ Fixed
+     model_kwargs={
         "min_new_tokens": 5,
         "max_new_tokens": 10
     }
@@ -54,7 +54,7 @@ st.write("Get a brutally savage roast in Hinglish with witty sarcasm!")
 
 # Input fields
 target_name = st.text_input("Enter target name:")
-relation = st.text_input("Relation (optional):")
+relation = st.text_input("Relation with the Target name (optional):")
 
 if st.button("Roast Now!"):
     if target_name.strip() == "":
@@ -68,4 +68,5 @@ if st.button("Roast Now!"):
             st.subheader("Here’s the Roast:")
 
             st.write(roast.content)
+
 

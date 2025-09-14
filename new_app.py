@@ -11,6 +11,11 @@ load_dotenv()
 llm = HuggingFaceEndpoint(
     repo_id="deepseek-ai/DeepSeek-V3.1",
     huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN")  # ✅ Fixed
+        model_kwargs={
+        "min_new_tokens": 5,
+        "max_new_tokens": 10
+    }
+
 )
 model = ChatHuggingFace(llm=llm)
 
@@ -63,3 +68,4 @@ if st.button("Roast Now!"):
             st.subheader("Here’s the Roast:")
 
             st.write(roast.content)
+

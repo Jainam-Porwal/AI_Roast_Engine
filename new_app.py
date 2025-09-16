@@ -54,7 +54,8 @@ st.markdown("""
         margin-bottom: 10px;
     }
     .user-bubble {
-        border: 1px solid #666;
+        background-color: rgba(0, 102, 204, 0.3); /* blue tint */
+        border: 1px solid #1a73e8;
         color: #fff;
         padding: 10px 14px;
         border-radius: 15px;
@@ -67,8 +68,9 @@ st.markdown("""
         font-weight: 500;
     }
     .ai-bubble {
-        border: 1px solid #aaa;
-        color: #fff;
+        background-color: rgba(20, 20, 20, 0.7); /* dark transparent */
+        border: 1px solid #666;
+        color: #fff; /* white text */
         padding: 10px 14px;
         border-radius: 15px;
         margin: 6px;
@@ -81,7 +83,6 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-
 # ---------------- HEADER ----------------
 st.markdown("<h1 style='text-align: center;'>🤖 Hinglish Roast AI</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; color: gray;'>😡 Roast Your Target • Then Keep Chatting 🔥</p>", unsafe_allow_html=True)
@@ -148,4 +149,5 @@ else:
         st.session_state.target_name = ""
         st.session_state.relation = ""
         st.rerun()
+
 

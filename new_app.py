@@ -1,7 +1,7 @@
 import streamlit as st
 from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace
 from langchain_core.prompts import PromptTemplate
-from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 import os
@@ -49,13 +49,14 @@ st.markdown("""
         max-height: 450px;
         overflow-y: auto;
         padding: 10px;
-        border: 1px solid #ddd;
+        border: 1px solid #444;
         border-radius: 12px;
-        background-color: #fafafa;
+        background-color: #1e1e1e; /* dark mode bg */
         margin-bottom: 10px;
     }
     .user-bubble {
-        background-color: #f1f1f1;
+        background-color: #3a3a3a;
+        color: white;
         padding: 10px 14px;
         border-radius: 15px;
         margin: 6px;
@@ -63,9 +64,12 @@ st.markdown("""
         max-width: 75%;
         float: right;
         clear: both;
+        font-size: 15px;
+        font-weight: 500;
     }
     .ai-bubble {
-        background-color: #d6e4ff;
+        background-color: #f0f0f0;
+        color: #111;
         padding: 10px 14px;
         border-radius: 15px;
         margin: 6px;
@@ -73,6 +77,8 @@ st.markdown("""
         max-width: 75%;
         float: left;
         clear: both;
+        font-size: 15px;
+        font-weight: 600;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -99,7 +105,4 @@ if not st.session_state.target_locked:
                 st.session_state.target_name = target_name
                 st.session_state.relation = relation or "unknown"
                 st.session_state.chat_history.append(AIMessage(content=roast))
-                st.session_state.target_locked = True
-                st.rerun()
-
-# ---------------- STE
+                st.sess

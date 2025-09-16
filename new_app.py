@@ -119,4 +119,34 @@ else:
         st.markdown("<div class='chat-box' id='chat-box'>", unsafe_allow_html=True)
         for msg in st.session_state.chat_history:
             if isinstance(msg, HumanMessage):
-                st.mar
+                st.markdown(f"<div class='user-bubble'>👤 {msg.content}</div>", unsafe_allow_html=True)
+            elif isinstance(msg, AIMessage):
+                st.markdown(f"<div class='ai-bubble'>🤖 {msg.content}</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        # Auto-scroll to bottom
+        st.markdown("""
+            <script>
+                var chatBox = document.getElementById('chat-box');
+                chatBox.scrollTop = chatBox.scrollHeight;
+            </script>
+        """, unsafe_allow_html=True)
+
+    # Input bar (always at bottom)
+    with st.form(key="chat_form", clear_on_submit=True):
+        user_msg = st.text_input("Type your roast or reply:", placeholder="Aur kya bole isko? 😂")
+        submitted = st.form_submit_button("👉 Send")
+        if submitted and user_msg.strip():
+            st.session_state.chat_history.append(HumanMessage(content=user_msg))
+            with st.spinner("Roasting harder... 🔥"):
+                result = model.invoke(st.session_state.chat_history)
+                st.session_state.chat_history.append(AIMessage(content=result.content))
+                st.rerun()
+
+    # Restart button
+    if st.button("🔄 Roast Someone Else"):
+        st.session_state.chat_history = []
+        st.session_state.target_locked = False
+        st.session_state.target_name = ""
+        st.session_state.relation = ""
+        st.rerun()

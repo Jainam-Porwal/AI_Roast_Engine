@@ -18,7 +18,7 @@ llm = HuggingFaceEndpoint(
 )
 model = ChatHuggingFace(llm=llm)
 
-# Prompt template (for initial roast)
+# Prompt template (for roasting)
 prompt1 = PromptTemplate(
     template="""You are the ultimate roast master AI.
 Roast the person brutally in **Hinglish** using witty sarcasm and censored galis.
@@ -37,45 +37,51 @@ if "chat_history" not in st.session_state:
         SystemMessage(content="You are a savage Hinglish roaster AI 🤖🔥")
     ]
 
-# ----------------- UI START -----------------
-st.set_page_config(page_title="Hinglish Roast AI", page_icon="🔥")
+# Page config
+st.set_page_config(page_title="Hinglish Roast AI", page_icon="🤖")
 
-st.markdown("<h1 style='text-align: center;'>🤖🔥 Hinglish Roast AI 🔥🤖</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'>😈 Brutal, Savage & Funny Hinglish Roasts 😈</p>", unsafe_allow_html=True)
+# ----------- UI -----------
+st.markdown("<h1 style='text-align: center;'>🤖 Hinglish Roast AI</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: gray;'>😡 Release Your Anger • Roast Them All 🔥</p>", unsafe_allow_html=True)
 
-# Roast section
-st.header("🎯 Roast Generator")
-target_name = st.text_input("Target Name 🧑:", placeholder="👀 Kis par gussa aa raha hai?")
-relation = st.text_input("Relation 🤔:", placeholder="⚡ Uska rishta kya hai tumse?")
-if st.button("💥 Roast Now!"):
-    if target_name.strip() == "":
-        st.warning("⚠️ Pehle naam to likh bhai!")
-    else:
-        with st.spinner("😈 Tandoor mein roast ho raha hai..."):
-            relation_text = relation if relation.strip() else "unknown"
-            roast = chain.invoke({
-                "target_name": target_name,
-                "relation": relation_text
-            })
-            st.session_state.chat_history.append(AIMessage(content=roast))
-            st.success(f"🔥 Savage Roast for **{target_name}** 🔥\n\n{roast}")
-
-# Chat section
-st.header("💬 Chat with Roast Master AI")
-user_input = st.text_input("Type your reply here 📝:", key="chat_input", placeholder="Batao kya bolu ab? 🤔")
-if st.button("👉 Send"):
-    if user_input.strip() != "":
-        st.session_state.chat_history.append(HumanMessage(content=user_input))
-        if user_input.lower() == "exit":
-            st.warning("🚪 Chat ended! Refresh to start again.")
-        else:
-            result = model.invoke(st.session_state.chat_history)
-            st.session_state.chat_history.append(AIMessage(content=result.content))
-
-# Display chat history with bubbles
+# Display chat history first
 st.subheader("📜 Chat History")
-for msg in st.session_state.chat_history:
-    if isinstance(msg, HumanMessage):
-        st.markdown(f"<div style='background-color:#d1f7c4;padding:10px;border-radius:10px;margin:5px;text-align:right;'>👤 <b>You:</b> {msg.content}</div>", unsafe_allow_html=True)
-    elif isinstance(msg, AIMessage):
-        st.markdown(f"<div style='background-color:#ffe4e1;padding:10px;border-radius:10px;margin:5px;text-align:left;'>🤖 <b>Roast AI:</b> {msg.content}</div>", unsafe_allow_html=True)
+chat_container = st.container()
+with chat_container:
+    for msg in st.session_state.chat_history:
+        if isinstance(msg, HumanMessage):
+            st.markdown(
+                f"<div style='background-color:#f1f1f1; padding:10px; border-radius:10px; margin:5px; text-align:right;'>"
+                f"<b>You:</b> {msg.content}</div>",
+                unsafe_allow_html=True
+            )
+        elif isinstance(msg, AIMessage):
+            st.markdown(
+                f"<div style='background-color:#e6f0ff; padding:10px; border-radius:10px; margin:5px; text-align:left;'>"
+                f"<b>Roast AI 🤖:</b> {msg.content}</div>",
+                unsafe_allow_html=True
+            )
+
+# ---------------- Chat Input (BOTTOM like ChatGPT) ----------------
+st.markdown("---")
+st.markdown("### 💬 Roast Someone Now")
+
+with st.form(key="roast_form", clear_on_submit=True):
+    cols = st.columns([2, 1])  # target name wider
+    target_name = cols[0].text_input("Target Name:", placeholder="Kis par gussa aa raha hai? 😡")
+    relation = cols[1].text_input("Relation:", placeholder="Dost, BF, GF, Teacher, Ex, etc.")
+    submitted = st.form_submit_button("🔥 Roast Now")
+
+    if submitted:
+        if target_name.strip() == "":
+            st.warning("⚠️ Pehle naam to likh bhai!")
+        else:
+            with st.spinner("Cooking roast... 🍳"):
+                relation_text = relation if relation.strip() else "unknown"
+                roast = chain.invoke({
+                    "target_name": target_name,
+                    "relation": relation_text
+                })
+                # Add both Human request + AI roast to chat
+                st.session_state.chat_history.append(HumanMessage(content=f"Roast {target_name} ({relation_text})"))
+                st.session_state.chat_history.append(AIMessage(content=roast))

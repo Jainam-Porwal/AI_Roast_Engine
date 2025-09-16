@@ -1,6 +1,7 @@
 # LangChain Core
 langchain
 langchain-core
+langchain langsmith
 
 
 # Hugging Face Integration
@@ -12,4 +13,5 @@ huggingface-hub
 python-dotenv
 
 # UI and Development
+
 streamlit

@@ -14,7 +14,6 @@ llm = HuggingFaceEndpoint(
     model_kwargs={
     "max_new_tokens": 150,
     "temperature": 0.9,
-    "top_p": 0.95
 }
 
 )
@@ -69,6 +68,7 @@ if st.button("Roast Now!"):
             st.subheader("Here’s the Roast:")
 
             st.write(roast.content)
+
 
 
 

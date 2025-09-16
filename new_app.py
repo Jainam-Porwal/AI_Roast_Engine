@@ -42,6 +42,42 @@ if "relation" not in st.session_state:
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(page_title="Hinglish Roast AI", page_icon="🤖")
 
+# Custom CSS for chat bubbles
+st.markdown("""
+    <style>
+    .chat-box {
+        max-height: 450px;
+        overflow-y: auto;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        background-color: #fafafa;
+        margin-bottom: 10px;
+    }
+    .user-bubble {
+        background-color: #f1f1f1;
+        padding: 10px 14px;
+        border-radius: 15px;
+        margin: 6px;
+        text-align: right;
+        max-width: 75%;
+        float: right;
+        clear: both;
+    }
+    .ai-bubble {
+        background-color: #d6e4ff;
+        padding: 10px 14px;
+        border-radius: 15px;
+        margin: 6px;
+        text-align: left;
+        max-width: 75%;
+        float: left;
+        clear: both;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# ---------------- HEADER ----------------
 st.markdown("<h1 style='text-align: center;'>🤖 Hinglish Roast AI</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; color: gray;'>😡 Roast Your Target • Then Keep Chatting 🔥</p>", unsafe_allow_html=True)
 
@@ -66,40 +102,4 @@ if not st.session_state.target_locked:
                 st.session_state.target_locked = True
                 st.rerun()
 
-# ---------------- STEP 2: CHAT MODE ----------------
-else:
-    st.subheader(f"💬 Roasting Session with {st.session_state.target_name} ({st.session_state.relation})")
-
-    # Show past chat
-    for msg in st.session_state.chat_history:
-        if isinstance(msg, HumanMessage):
-            st.markdown(
-                f"<div style='background-color:#f1f1f1; padding:10px; border-radius:10px; margin:5px; text-align:right;'>"
-                f"👤 <b>You:</b> {msg.content}</div>",
-                unsafe_allow_html=True
-            )
-        elif isinstance(msg, AIMessage):
-            st.markdown(
-                f"<div style='background-color:#e6f0ff; padding:10px; border-radius:10px; margin:5px; text-align:left;'>"
-                f"🤖 <b>Roast AI:</b> {msg.content}</div>",
-                unsafe_allow_html=True
-            )
-
-    # Chat input at bottom
-    with st.form(key="chat_form", clear_on_submit=True):
-        user_msg = st.text_input("Type your roast or reply:", placeholder="Aur kya bole isko? 😂")
-        submitted = st.form_submit_button("👉 Send")
-        if submitted and user_msg.strip():
-            st.session_state.chat_history.append(HumanMessage(content=user_msg))
-            with st.spinner("Roasting harder... 🔥"):
-                result = model.invoke(st.session_state.chat_history)
-                st.session_state.chat_history.append(AIMessage(content=result.content))
-                st.rerun()
-
-    # Option to restart with new person
-    if st.button("🔄 Roast Someone Else"):
-        st.session_state.chat_history = []
-        st.session_state.target_locked = False
-        st.session_state.target_name = ""
-        st.session_state.relation = ""
-        st.rerun()
+# ---------------- STE

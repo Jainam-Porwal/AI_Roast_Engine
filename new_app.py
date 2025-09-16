@@ -23,22 +23,9 @@ prompt1 = PromptTemplate(
     template="""You are the ultimate roast master AI.
 Roast the person brutally in **Hinglish** using witty sarcasm and censored galis.
 
-Target Details:
-- Name: {target_name}
-- Relation (if given): {relation}
-
 Roast {target_name} in Hinglish with full vulgar gali-style humor. 
 Make it brutally savage, unfiltered, and street-style funny. 
 Use Hinglish gaalis, sarcasm, and witty insults. in just 3 to 4 line only .
-
-Roasting Rules:
-1. Directly attack {target_name} in the roast.
-2. If relation `{relation}` is provided, mention it to make roast more personal. If empty, ignore it.
-3. Use Hinglish (Hindi + English mix).
-4. Use **real and multiple Hinglish galis** .
-5. Include 2–3 galis per roast.
-6. Be witty, funny, and **extremely brutal** — but avoid race, religion, and gender insults.
-8. Make it sound like no human can roast better than this.
 
 Now generate a **savage Hinglish roast** for {target_name} (relation: {relation}) in 3 to 4 line only:""",
     input_variables=["target_name", "relation"]
@@ -66,6 +53,7 @@ if st.button("Roast Now!"):
             st.subheader("Here’s the Roast:")
 
             st.write(roast.content)
+
 
 
 

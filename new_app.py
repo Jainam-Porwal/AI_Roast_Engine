@@ -42,7 +42,7 @@ if "relation" not in st.session_state:
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(page_title="Hinglish Roast AI", page_icon="🤖")
 
-# Custom CSS for chat bubbles
+# Custom CSS with transparent bubbles
 st.markdown("""
     <style>
     .chat-box {
@@ -51,12 +51,12 @@ st.markdown("""
         padding: 10px;
         border: 1px solid #444;
         border-radius: 12px;
-        background-color: #1e1e1e; /* dark mode bg */
         margin-bottom: 10px;
     }
     .user-bubble {
-        background-color: #3a3a3a;
-        color: white;
+        background-color: transparent;
+        border: 1px solid #666;
+        color: #fff;
         padding: 10px 14px;
         border-radius: 15px;
         margin: 6px;
@@ -68,8 +68,9 @@ st.markdown("""
         font-weight: 500;
     }
     .ai-bubble {
-        background-color: #f0f0f0;
-        color: #111;
+        background-color: transparent;
+        border: 1px solid #aaa;
+        color: #fff;
         padding: 10px 14px;
         border-radius: 15px;
         margin: 6px;
@@ -105,4 +106,17 @@ if not st.session_state.target_locked:
                 st.session_state.target_name = target_name
                 st.session_state.relation = relation or "unknown"
                 st.session_state.chat_history.append(AIMessage(content=roast))
-                st.sess
+                st.session_state.target_locked = True
+                st.rerun()
+
+# ---------------- STEP 2: CHAT MODE ----------------
+else:
+    st.subheader(f"💬 Roasting {st.session_state.target_name} ({st.session_state.relation})")
+
+    # Chat messages
+    chat_container = st.container()
+    with chat_container:
+        st.markdown("<div class='chat-box' id='chat-box'>", unsafe_allow_html=True)
+        for msg in st.session_state.chat_history:
+            if isinstance(msg, HumanMessage):
+                st.mar

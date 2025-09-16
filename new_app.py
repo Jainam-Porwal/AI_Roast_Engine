@@ -54,7 +54,6 @@ st.markdown("""
         margin-bottom: 10px;
     }
     .user-bubble {
-        background-color: transparent;
         border: 1px solid #666;
         color: #fff;
         padding: 10px 14px;
@@ -68,7 +67,6 @@ st.markdown("""
         font-weight: 500;
     }
     .ai-bubble {
-        background-color: transparent;
         border: 1px solid #aaa;
         color: #fff;
         padding: 10px 14px;
@@ -150,3 +148,4 @@ else:
         st.session_state.target_name = ""
         st.session_state.relation = ""
         st.rerun()
+

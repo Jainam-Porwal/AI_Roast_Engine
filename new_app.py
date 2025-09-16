@@ -13,6 +13,7 @@ llm = HuggingFaceEndpoint(
     huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN") , # ✅ Fixed
     max_new_tokens=150,       # ✅ must be here
     temperature=0.9, 
+    max_length=256, 
 
 )
 model = ChatHuggingFace(llm=llm)
@@ -66,6 +67,7 @@ if st.button("Roast Now!"):
             st.subheader("Here’s the Roast:")
 
             st.write(roast.content)
+
 
 
 

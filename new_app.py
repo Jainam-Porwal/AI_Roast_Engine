@@ -29,7 +29,7 @@ Target Details:
 
 Roast {target_name} in Hinglish with full vulgar gali-style humor. 
 Make it brutally savage, unfiltered, and street-style funny. 
-Use Hinglish gaalis, sarcasm, and witty insults. 
+Use Hinglish gaalis, sarcasm, and witty insults. in just 3 to 4 line only .
 
 Roasting Rules:
 1. Directly attack {target_name} in the roast.
@@ -38,10 +38,9 @@ Roasting Rules:
 4. Use **real and multiple Hinglish galis** .
 5. Include 2–3 galis per roast.
 6. Be witty, funny, and **extremely brutal** — but avoid race, religion, and gender insults.
-7. If the {target_name} contains "Jainam", then roast the **user** instead because Jainam is the creator of this project.
 8. Make it sound like no human can roast better than this.
 
-Now generate a **savage Hinglish roast** for {target_name} (relation: {relation}):""",
+Now generate a **savage Hinglish roast** for {target_name} (relation: {relation}) in 3 to 4 line only:""",
     input_variables=["target_name", "relation"]
 )
 
@@ -67,6 +66,7 @@ if st.button("Roast Now!"):
             st.subheader("Here’s the Roast:")
 
             st.write(roast.content)
+
 
 
 
